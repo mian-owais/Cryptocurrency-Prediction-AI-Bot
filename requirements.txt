@@ -1,0 +1,22 @@
+pandas
+numpy
+scikit-learn
+xgboost
+tensorflow
+keras
+shap
+streamlit
+matplotlib
+seaborn
+requests
+pycoingecko
+ta
+joblib
+python-dotenv
+plotly
+# CSP solver
+python-constraint
+# Optional / dev
+black
+flake8
+ipython
