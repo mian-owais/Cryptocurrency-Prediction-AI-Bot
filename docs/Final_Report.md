@@ -1,5 +1,6 @@
 # AI Cryptocurrency Trading Bot - Final Report
-*November 3, 2025*
+
+_November 3, 2025_
 
 ## Abstract
 
@@ -8,6 +9,7 @@ This project implements an AI-powered cryptocurrency trading bot that combines t
 ## Objective
 
 The primary goal was to develop a complete trading system that:
+
 1. Makes accurate short-term price predictions
 2. Generates actionable trading signals
 3. Optimizes portfolio allocation
@@ -17,28 +19,33 @@ The primary goal was to develop a complete trading system that:
 ## Architecture
 
 ### System Components
+
 ![Architecture Diagram](images/architecture.svg)
 
 The system consists of several key components:
 
 1. **Data Pipeline** (`src/data_pipeline.py`)
+
    - Real-time data fetching from CoinGecko
    - Technical indicator computation
    - Data cleaning and preprocessing
 
 2. **Machine Learning Pipeline** (`src/model_train.py`, `src/model_predict.py`)
+
    - Feature engineering and selection
    - Model training with hyperparameter optimization
    - Walk-forward validation
    - Prediction generation
 
 3. **Reinforcement Learning** (`src/rl_agent.py`, `src/trading_env.py`)
+
    - Custom OpenAI Gym environment
    - DQN agent implementation
    - Portfolio simulation
    - Transaction cost modeling
 
 4. **Strategy Engine** (`src/strategy_engine.py`)
+
    - Signal generation logic
    - Portfolio optimization
    - Risk management rules
@@ -54,6 +61,7 @@ The system consists of several key components:
 ### Traditional ML Models
 
 1. **Random Forest**
+
    - Feature importance-based selection
    - Optuna hyperparameter optimization
    - Walk-forward cross-validation
@@ -74,30 +82,33 @@ The system consists of several key components:
 
 ### Price Prediction Performance
 
-| Model          | RMSE     | MAPE    | Direction Accuracy |
-|----------------|----------|---------|-------------------|
-| Random Forest  | 245.32   | 2.34%   | 62.8%            |
-| XGBoost        | 238.91   | 2.18%   | 64.1%            |
-| Ensemble       | 235.47   | 2.15%   | 65.3%            |
+| Model         | RMSE   | MAPE  | Direction Accuracy |
+| ------------- | ------ | ----- | ------------------ |
+| Random Forest | 245.32 | 2.34% | 62.8%              |
+| XGBoost       | 238.91 | 2.18% | 64.1%              |
+| Ensemble      | 235.47 | 2.15% | 65.3%              |
 
 ### Portfolio Performance
 
-| Strategy            | Return  | Sharpe | Max Drawdown |
-|--------------------|---------|--------|--------------|
-| Buy & Hold         | 42.3%   | 1.23   | -28.4%       |
-| ML Strategy        | 58.7%   | 1.85   | -18.2%       |
-| RL Strategy        | 63.2%   | 1.92   | -15.7%       |
-| Combined Strategy  | 67.1%   | 2.14   | -14.3%       |
+| Strategy          | Return | Sharpe | Max Drawdown |
+| ----------------- | ------ | ------ | ------------ |
+| Buy & Hold        | 42.3%  | 1.23   | -28.4%       |
+| ML Strategy       | 58.7%  | 1.85   | -18.2%       |
+| RL Strategy       | 63.2%  | 1.92   | -15.7%       |
+| Combined Strategy | 67.1%  | 2.14   | -14.3%       |
 
 ## Dashboard Screenshots
 
 ### Market Overview
+
 ![Market Overview](images/market_overview.png)
 
 ### Model Predictions
+
 ![Predictions](images/predictions.png)
 
 ### SHAP Explanations
+
 ![SHAP Analysis](images/shap_explanations.png)
 
 ## Conclusions
@@ -113,11 +124,13 @@ The project successfully demonstrates:
 ## Future Work
 
 1. **Model Improvements**
+
    - Add LSTM/transformer models
    - Implement multi-asset RL
    - Enhanced feature engineering
 
 2. **System Enhancements**
+
    - Add voice/Telegram alerts
    - Implement paper trading
    - Add exchange API integration

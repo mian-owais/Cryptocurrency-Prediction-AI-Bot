@@ -67,7 +67,8 @@ def prepare_training_data(df: pd.DataFrame, target_col: str = None, horizon: int
 
     df["target"] = df[target_col].shift(-horizon)
     df = df.dropna()
-    feature_names = list(df.select_dtypes(include=["number"]).columns.drop("target")) if "target" in df.columns else list(df.select_dtypes(include=["number"]).columns)
+    feature_names = list(df.select_dtypes(include=["number"]).columns.drop(
+        "target")) if "target" in df.columns else list(df.select_dtypes(include=["number"]).columns)
     X = df[feature_names].values
     y = df["target"].values
     # last_prices aligned with y (price at t for target at t+1)
@@ -102,7 +103,8 @@ def ensure_logs_dir(path: str = "data/logs"):
 def log_metrics(metrics: Dict[str, float], coin: str, model_name: str, out_path: str = "data/logs/training_logs.csv") -> None:
     """Append metrics to a CSV log file with timestamp, coin, model name, and metrics."""
     ensure_logs_dir(os.path.dirname(out_path) or "data/logs")
-    row = {"timestamp": datetime.utcnow().isoformat(), "coin": coin, "model": model_name}
+    row = {"timestamp": datetime.utcnow().isoformat(), "coin": coin,
+           "model": model_name}
     row.update(metrics)
     df_row = pd.DataFrame([row])
     if not os.path.exists(out_path):
@@ -126,11 +128,13 @@ def walk_forward_train(df: pd.DataFrame, model_name: str = "random_forest", n_sp
         last_test = last_prices[test_idx]
 
         if model_name == "random_forest":
-            model = RandomForestRegressor(n_estimators=100, random_state=42, n_jobs=-1)
+            model = RandomForestRegressor(
+                n_estimators=100, random_state=42, n_jobs=-1)
             model.fit(X_train, y_train)
             preds = model.predict(X_test)
         elif model_name == "xgboost":
-            model = xgb.XGBRegressor(n_estimators=200, objective="reg:squarederror", random_state=42)
+            model = xgb.XGBRegressor(
+                n_estimators=200, objective="reg:squarederror", random_state=42)
             model.fit(X_train, y_train)
             preds = model.predict(X_test)
         else:
@@ -140,22 +144,27 @@ def walk_forward_train(df: pd.DataFrame, model_name: str = "random_forest", n_sp
         fold_metrics.append(m)
 
     # Aggregate metrics (mean across folds)
-    agg = {k: float(np.mean([m.get(k, np.nan) for m in fold_metrics])) for k in fold_metrics[0]}
+    agg = {k: float(np.mean([m.get(k, np.nan)
+                    for m in fold_metrics])) for k in fold_metrics[0]}
 
     # Attempt to tune hyperparameters (Optuna) — small budgets by default
     try:
         if model_name == "random_forest":
             best_params = tune_random_forest(X, y, n_trials=20, cv_splits=3)
-            final_model = RandomForestRegressor(**best_params, n_jobs=-1, random_state=42)
+            final_model = RandomForestRegressor(
+                **best_params, n_jobs=-1, random_state=42)
         else:
             best_params = tune_xgboost(X, y, n_trials=20, cv_splits=3)
-            final_model = xgb.XGBRegressor(**best_params, objective="reg:squarederror", random_state=42)
+            final_model = xgb.XGBRegressor(
+                **best_params, objective="reg:squarederror", random_state=42)
     except Exception:
         # fallback defaults
         if model_name == "random_forest":
-            final_model = RandomForestRegressor(n_estimators=200, random_state=42, n_jobs=-1)
+            final_model = RandomForestRegressor(
+                n_estimators=200, random_state=42, n_jobs=-1)
         else:
-            final_model = xgb.XGBRegressor(n_estimators=300, objective="reg:squarederror", random_state=42)
+            final_model = xgb.XGBRegressor(
+                n_estimators=300, objective="reg:squarederror", random_state=42)
 
     final_model.fit(X, y)
     return {"model": final_model, "metrics": agg, "feature_names": feature_names}
@@ -175,7 +184,8 @@ def train_models_for_coin(coin: str = "bitcoin", processed_path: str = "data/pro
     try:
         X_full = df_numeric.values[:-1, :]
         y_full = df_numeric.iloc[:, 0].shift(-1).dropna().values
-        selector = RFE(LinearRegression(), n_features_to_select=max(3, min(10, X_full.shape[1] // 2)))
+        selector = RFE(LinearRegression(), n_features_to_select=max(
+            3, min(10, X_full.shape[1] // 2)))
         selector = selector.fit(X_full, y_full)
         mask = selector.support_
         if mask.shape[0] == df_numeric.shape[1]:

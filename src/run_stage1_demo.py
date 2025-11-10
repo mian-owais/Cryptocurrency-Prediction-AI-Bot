@@ -20,7 +20,8 @@ from src.model_train import train_models_for_coin
 def main():
     try:
         print("[demo] Preparing processed data (2 days)...")
-        df = prepare_and_save(["bitcoin", "ethereum"], days=2, out_path="data/processed/crypto_data.csv")
+        df = prepare_and_save(["bitcoin", "ethereum"],
+                              days=2, out_path="data/processed/crypto_data.csv")
         print("[demo] Processed data rows:", len(df))
     except Exception as e:
         print("[demo] Data preparation failed:", e)
@@ -28,7 +29,8 @@ def main():
 
     try:
         print("[demo] Training models for bitcoin (light)...")
-        res = train_models_for_coin("bitcoin", processed_path="data/processed/crypto_data.csv", out_model_path="models/best_model_demo.pkl")
+        res = train_models_for_coin(
+            "bitcoin", processed_path="data/processed/crypto_data.csv", out_model_path="models/best_model_demo.pkl")
         print("[demo] Training result:", res)
     except Exception as e:
         print("[demo] Training failed:", e)

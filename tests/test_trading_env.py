@@ -29,7 +29,8 @@ class TestPortfolio(unittest.TestCase):
         self.assertEqual(value, 1200.0)  # 1000 cash + 2 * 100 position
 
     def test_buy_trade(self):
-        pnl, cost = self.portfolio.trade(price=100.0, action=1, trade_size=0.1, cost=0.001)
+        pnl, cost = self.portfolio.trade(
+            price=100.0, action=1, trade_size=0.1, cost=0.001)
         self.assertLess(self.portfolio.cash, 1000.0)
         self.assertGreater(self.portfolio.position, 0.0)
         self.assertEqual(len(self.portfolio.trades), 1)
@@ -39,18 +40,21 @@ class TestPortfolio(unittest.TestCase):
         self.portfolio.trade(price=100.0, action=1, trade_size=0.1, cost=0.001)
         initial_position = self.portfolio.position
         # Then sell
-        pnl, cost = self.portfolio.trade(price=110.0, action=2, trade_size=0.1, cost=0.001)
+        pnl, cost = self.portfolio.trade(
+            price=110.0, action=2, trade_size=0.1, cost=0.001)
         self.assertLess(self.portfolio.position, initial_position)
         self.assertEqual(len(self.portfolio.trades), 2)
 
     def test_invalid_trades(self):
         # Sell with no position
-        pnl, cost = self.portfolio.trade(price=100.0, action=2, trade_size=0.1, cost=0.001)
+        pnl, cost = self.portfolio.trade(
+            price=100.0, action=2, trade_size=0.1, cost=0.001)
         self.assertEqual(pnl, 0.0)
         self.assertEqual(cost, 0.0)
         # Buy with no cash
         self.portfolio.cash = 0.0
-        pnl, cost = self.portfolio.trade(price=100.0, action=1, trade_size=0.1, cost=0.001)
+        pnl, cost = self.portfolio.trade(
+            price=100.0, action=1, trade_size=0.1, cost=0.001)
         self.assertEqual(pnl, 0.0)
         self.assertEqual(cost, 0.0)
 

@@ -43,7 +43,8 @@ class Portfolio:
         if action == 0:  # HOLD
             return 0.0, 0.0
 
-        trade_value = self.cash * trade_size if action == 1 else self.position * price * trade_size
+        trade_value = self.cash * \
+            trade_size if action == 1 else self.position * price * trade_size
         trade_cost = trade_value * cost
         actual_value = trade_value - trade_cost
 
@@ -142,7 +143,8 @@ class TradingEnv:
 
         # execute trade and get costs
         old_value = self.portfolio.get_value(price)
-        pnl, cost = self.portfolio.trade(price, action, self.trade_size, self.cost)
+        pnl, cost = self.portfolio.trade(
+            price, action, self.trade_size, self.cost)
         new_value = self.portfolio.get_value(next_price)
 
         # reward is value change minus costs
