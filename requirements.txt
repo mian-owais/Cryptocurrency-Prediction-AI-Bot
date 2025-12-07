@@ -1,0 +1,27 @@
+pandas
+numpy
+scikit-learn
+xgboost
+tensorflow
+keras
+shap
+streamlit
+matplotlib
+seaborn
+requests
+pycoingecko
+ta
+joblib
+python-dotenv
+plotly
+# CSP solver
+python-constraint
+# Optional dependencies (for enhanced features)
+torch  # For RL Agent DQN training
+streamlit-autorefresh  # For auto-refresh functionality
+reportlab  # For PDF report generation
+
+# Optional / dev
+black
+flake8
+ipython
